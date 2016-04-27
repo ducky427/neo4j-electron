@@ -1,10 +1,11 @@
 {
   "name": "neo4j-electron",
+  "productName": "Neo4j-Electron",
   "version": "1.0.0",
   "description": "Neo4j Browser electron app",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",

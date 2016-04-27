@@ -11,8 +11,17 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow () {
+
+  const browserWindowOptions = {
+    width: 800,
+    height: 600,
+    title: 'Neo4J Browser',
+    icon: __dirname + '/images/logo.png',
+    webPreferences: {'nodeIntegration': false}
+  };
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600, webPreferences: {'nodeIntegration': false}, title: 'Neo4J Browser',});
+  mainWindow = new BrowserWindow(browserWindowOptions);
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
