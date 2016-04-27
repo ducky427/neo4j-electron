@@ -213,7 +213,7 @@
                 </p>
                 <p> <a play-topic="neo4j-sync">About Neo4j Browser Sync</a></p>
                 <alert ng-hide="goodBrowser" class="top-padded">
-                   
+
                   Neo4j Browser Sync is currently only available for some versions of Internet Explorer.
                   If you have any trouble, we'd love to hear from you at&nbsp;<a href="mailto:feedback@neotechnology.com">feedback@neotechnology.com</a>
                 </alert>
@@ -221,7 +221,7 @@
                 <div class="box-max">
                   <div class="checkbox">
                     <label for="acceptedTermsAndPrivacyCheckBox" class="muted">
-                      <input id="acceptedTermsAndPrivacyCheckBox" type="checkbox" ng-model="settings.acceptedTermsAndPrivacy" ng-change="save()">By checking this box you are agreeing to the <a href="http://neo4j.com/terms/neo4j-browser-sync/">Neo4j Browser Sync Terms of Use</a>&nbsp;and our&nbsp;<a href="http://neo4j.com/privacy-policy/">Privacy Policy</a>.  
+                      <input id="acceptedTermsAndPrivacyCheckBox" type="checkbox" ng-model="settings.acceptedTermsAndPrivacy" ng-change="save()">By checking this box you are agreeing to the <a href="http://neo4j.com/terms/neo4j-browser-sync/">Neo4j Browser Sync Terms of Use</a>&nbsp;and our&nbsp;<a href="http://neo4j.com/privacy-policy/">Privacy Policy</a>.
                     </label>
                   </div>
                 </div>
@@ -447,8 +447,8 @@
     <script id="template/tabs/tabset.html" type="text/ng-template"><div>
   <ul class="nav nav-{{type || 'tabs'}}" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude></ul>
   <div class="tab-content">
-    <div class="tab-pane" 
-         ng-repeat="tab in tabs" 
+    <div class="tab-pane"
+         ng-repeat="tab in tabs"
          ng-class="{active: tab.active}"
          tab-content-transclude="tab">
     </div>
@@ -587,7 +587,8 @@
 </div>
 
     </script>
+    <script src="patch.js"></script>
     <script src="scripts/cf4d0a7f.components.js"></script>
-    <script src="scripts/044a0d4e.scripts.js"></script>
+    <script src="scripts/6442ef9c.scripts.js"></script>
   </body>
 </html>
