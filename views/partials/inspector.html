@@ -1,0 +1,25 @@
+<div ng-if="Inspector.length &gt; 0" ng-class="{contracted: inspectorContracted}" class="inspector-footer">
+  <div class="inspector-foot-row">
+    <div update-ui="inspectorChanged" overflow-with-toggle="" ng-click="inspectorContracted = !inspectorContracted" class="row-toggle">
+      <div ng-class="inspectorContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+    </div>
+    <ul class="list-unstyled list-items">
+      <li ng-repeat="row in Inspector.items" ng-include="row.tmpl" onload="item = row.data" class="inspector-footer-row"></li>
+    </ul>
+  </div>
+</div>
+<div ng-if="Inspector.length == 0" class="inspector-footer">
+  <div class="inspector-footer-row"><span>{{ graphStatistics(frame) }}</span>
+    <div class="actions">
+      <div ng-click="toggleDisplayInternalRelationships()" class="toggle"><a class="toggle-text">Auto-complete</a>
+        <div class="switch">
+          <label>
+            <div ng-class="{right: displayInternalRelationships}" class="switch-inner"><span class="right-text">ON</span>
+              <div class="handle"></div><span class="left-text">OFF</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

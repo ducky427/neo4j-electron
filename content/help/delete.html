@@ -1,0 +1,34 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>DELETE</h3>
+        <p class="lead">Delete nodes or relationships</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>DELETE</code> clause is used to delete nodes and relationships
+          identified within a&nbsp;<code>MATCH</code> clause, possibly qualified by a&nbsp;<code>WHERE</code>. Remember that you can not delete a node 
+          without also deleting relationships that start or end on said node.
+        </p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-delete.html">DELETE</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="detach-delete">:help DETACH DELETE</a>&nbsp;<a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="where">:help WHERE</a>&nbsp;<a help-topic="remove">:help REMOVE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">MATCH (n)-[r]-() WHERE n.name = 'Soren' DELETE r</pre>
+          <figcaption>Remove all of Soren's friends.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

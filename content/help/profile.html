@@ -1,0 +1,35 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>PROFILE</h3>
+        <p class="lead">Profile query execution</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>Prefix any query with the&nbsp;<code>PROFILE</code> keyword to have Neo4j return the execution plan for the query,
+          including detailed profilling information.
+        </p>
+        <p>See&nbsp;<a help-topic="query plan">:help QUERY PLAN</a> for a guide to understanding the query plan output.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/execution-plans.html">Execution Plans</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="explain">:help EXPLAIN</a>&nbsp;<a help-topic="query plan">:help QUERY PLAN</a>&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">PROFILE
+MATCH (n:Person) RETURN n LIMIT 25</pre>
+          <figcaption>Find nodes with the Person label, and profile query execution.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

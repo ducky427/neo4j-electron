@@ -1,0 +1,39 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>REMOVE</h3>
+        <p class="lead">Remove properties and labels</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>REMOVE</code> clause is used to remove properties and labels from graph elements.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-remove.html">REMOVE</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="where">:help WHERE</a>&nbsp;<a help-topic="return">:help RETURN</a>&nbsp;<a help-topic="delete">:help DELETE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">MATCH (soren {name: 'Soren'})
+REMOVE soren.age
+RETURN soren</pre>
+          <figcaption>Remove Soren's age.</figcaption>
+        </figure>
+        <figure>
+          <pre class="code runnable">MATCH (soren {name: 'Soren'})
+REMOVE soren:Intern
+RETURN soren</pre>
+          <figcaption>Soren is no longer an intern.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

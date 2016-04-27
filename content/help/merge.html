@@ -1,0 +1,34 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>MERGE</h3>
+        <p class="lead">Create missing graph data</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>MERGE</code> clause ensures that an expected pattern exists in the graph, reconciling
+          whether data was found, or needs to be created through sub-clauses&nbsp;<code>ON CREATE</code> and&nbsp;<code>ON MATCH</code>.
+        </p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-merge.html">MERGE</a></code>&nbsp;<code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-merge.html#merge-merge-with-on-create.html">ON CREATE</a></code>&nbsp;<code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-merge.html#merge-merge-with-on-match.html">ON MATCH</a></code></td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="create">:help CREATE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">MERGE (charlie:Person { name:'Charlie Sheen', age:10 })
+RETURN charlie</pre>
+          <figcaption>Look for a person named Charlie Sheen, age 10. If not found, create such a person.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

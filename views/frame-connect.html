@@ -1,0 +1,153 @@
+<div ng-controller="AuthCtrl">
+  <div class="outer">
+    <div class="code-bar">
+      <ul class="actions list-inline">
+        <li dropdown="" ng-show="frame.type == &quot;http&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportJSON(frame.response)">Download JSON</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;shell&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportText(frame.response)">Download TXT</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;cypher&quot;" class="dropdown"><a dropdown-toggle="" tooltip-placement="bottom" tooltip="Export to file" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportGraphSVG()" ng-show="isActive(&quot;graph&quot;)">Export SVG</a><a exportable ng-click="exportPlanSVG()" ng-show="isActive(&quot;plan&quot;)">Export SVG</a><a exportable ng-click="exportGraphPNG()" ng-show="isActive(&quot;graph&quot;)">Export PNG</a><a exportable ng-click="exportPlanPNG()" ng-show="isActive(&quot;plan&quot;)">Export PNG</a><a exportable ng-click="exportJSON(frame.response.raw.summary ? frame.response.raw : frame.response.table._response)">Export JSON</a><a ng-hide="frame.response.protocol=='bolt'" exportable ng-click="exportCSV(frame.response.table)">Export CSV</a></li>
+          </ul>
+        </li>
+        <li><a ng-click="pin(frame)" ng-class="{pinned: pinned}" tooltip-placement="bottom" tooltip="Pin at top" class="button sl sl-pin"></a></li>
+        <li><a ng-click="toggleFullscreen(true)" tooltip-placement="bottom" tooltip="Fullscreen" ng-show="frame.fullscreenable" class="button sl sl-scale-spread"></a></li>
+        <li><a ng-click="frames.close(frame)" tooltip-placement="bottom" tooltip="Cancel and close" class="button sl sl-delete"></a></li>
+      </ul>
+      <div class="status"><span ng-if="frame.type == &quot;cypher&quot;" class="prompt code">$</span><span click-to-code="frame.input" class="code mono">{{frame.input | uncomment}}</span></div><a ng-click="toggleFullscreen(false)" tooltip="Close Fullscreen" tooltip-placement="bottom" class="close-fullscreen sl sl-scale-reduce"></a>
+    </div>
+    <div class="inner">
+      <div ng-hide="password_change_required" class="view-result">
+        <article class="help">
+          <div class="container-fluid">
+            <div ng-show="!static_is_authenticated" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Connect to Neo4j</h3>
+                <p class="lead">Database access requires an authenticated connection.</p>
+              </div>
+              <div ng-hide="static_is_authenticated" class="details col-sm-9">
+                <div class="form">
+                  <div class="row">
+                    <div class="col-sm-5">Username<br>
+                      <input type="text" on-enter="focus" on-enter-target-id="connect_password" focus-on="1" ng-model="username" style="margin: 0" class="form-control"><br>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5">Password<br>
+                      <input id="connect_password" on-enter="click" on-enter-target-id="connect_button" type="password" ng-model="password" style="margin: 0" class="form-control"><br>
+                    </div>
+                  </div>
+                  <div class="row form-info">
+                    <div class="col-sm-5">Default username/password:&nbsp;<b>neo4j</b>/<b>neo4j</b></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5"><br>
+                      <button id="connect_button" ng-click="authenticate()" style="margin: 0" class="btn btn-default">Connect</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-if="static_is_authenticated &amp;&amp; !password_change_required &amp;&amp; !static_user" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Connection to Neo4j</h3>
+                <p class="lead">Connected.</p>
+              </div>
+              <div class="details col-sm-9">
+                <p>Connected to Neo4j (no auth required).</p>
+              </div>
+            </div>
+            <div ng-show="static_is_authenticated &amp;&amp; !password_change_required &amp;&amp; static_user" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Connected to Neo4j</h3>
+                <p class="lead">Nice to meet you.</p>
+              </div>
+              <div class="details col-sm-9">
+                <p></p>
+                <ul class="big undecorated">
+                  <li><span class="center-tbl-left-col inline">You are connected as user&nbsp;</span><code>{{static_user}}</code><br><span class="center-tbl-left-col inline">to the server&nbsp;</span><code>{{static_host}}    </code></li>
+                  <li>
+                    <p class="lead">{{policy_message}}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div ng-show="password_change_required" class="view-result fade">
+        <article ng-controller="ChangePasswordCtrl" class="help">
+          <div class="container-fluid">
+            <div ng-show="(static_is_authenticated &amp;&amp; static_user) || password_change_required" class="section row-fluid summary">
+              <div ng-show="!showCurrentPasswordField()" class="summary col-sm-3">
+                <h3>Set Password</h3>
+                <p class="lead">You have to set a password before you can connect.</p>
+              </div>
+              <div ng-show="showCurrentPasswordField()" class="summary col-sm-3">
+                <h3>Password change</h3>
+                <p ng-show="showCurrentPasswordField()" class="lead">Enter your current password and the new twice to change your password.</p>
+              </div>
+              <div ng-hide="password_changed" class="details col-sm-9">
+                <div class="form">
+                  <div class="row">
+                    <div ng-show="showCurrentPasswordField()" class="col-sm-5">Current Password<br>
+                      <input type="password" focus-on="showCurrentPasswordField()" on-enter="focus" on-enter-target-id="new_connect_password1" ng-model="current_password" style="margin: 0" tabindex="1" class="form-control"><br>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5">New Password<br>
+                      <input type="password" focus-on="!showCurrentPasswordField()" id="new_connect_password1" on-enter="focus" on-enter-target-id="new_connect_password2" ng-model="new_password" style="margin: 0" tabindex="2" class="form-control"><br>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5">New Password Again<br>
+                      <input type="password" id="new_connect_password2" on-enter="click" on-enter-target-id="set_connect_password" ng-model="new_password2" style="margin: 0" tabindex="3" class="form-control"><br>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <button id="set_connect_password" ng-click="setNewPassword()" style="margin: 0" class="btn btn-default">Set  password</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div ng-show="password_changed" class="details col-sm-9"><br><br>
+                <p>Your new password is now in effect.</p>
+              </div>
+            </div>
+            <div ng-show="static_is_authenticated &amp;&amp; !static_user &amp;&amp; !password_change_required" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Password change</h3>
+                <p class="lead">This is not available.</p>
+              </div>
+              <div class="details col-sm-9">
+                <p>You can't change password when server auth is disabled.</p>
+              </div>
+            </div>
+            <div ng-show="!static_is_authenticated &amp;&amp; !password_change_required" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Password change</h3>
+                <p class="lead">This is not available.</p>
+              </div>
+              <div class="details col-sm-9">
+                <p>You can't change password when not authenticated.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div ng-class="{error: frame.detailedErrorText, loading: frame.isLoading}" class="status-bar">
+        <div ng-show="frame.detailedErrorText" class="status">
+          <div class="fa fa-exclamation-triangle icon-warning-sign">&nbsp;</div><span>{{frame.detailedErrorText}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

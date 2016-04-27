@@ -1,0 +1,3 @@
+<script id="template/carousel/slide.html" type="text/ng-template">
+  <div ng-class="{ 'active': leaving || (active &amp;&amp; !entering), 'prev': (next || active) &amp;&amp; direction=='prev', 'next': (next || active) &amp;&amp; direction=='next', 'right': direction=='prev',  'left': direction=='next'  }" ng-transclude="ng-transclude" class="item"></div>
+</script>

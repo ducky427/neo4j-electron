@@ -1,0 +1,27 @@
+<script id="popup-styling" type="text/ng-template">
+  <div id="grass" ng-controller="StylePreviewCtrl">
+    <div class="modal-header"><a ng-click="togglePopup()" class="close pull-right">&times;</a>
+      <ul class="list-inline">
+        <li>
+          <h3 style="display:inline;">Graph Style Sheet</h3>
+        </li>
+        <li><a exportable ng-click="exportGraSS(code)" tooltip-placement="bottom" tooltip="Export to file" class="fa fa-download"></a></li>
+        <li><a exportable ng-click="reset()" tooltip-placement="bottom" tooltip="Reset to default style" class="fa fa-fire-extinguisher"></a></li>
+      </ul>
+    </div>
+    <div class="modal-body">
+      <textarea ng-model="code" disabled="disabled"></textarea>
+      <file-upload upload="import($content)" message="Drop a grass-file here to import">&nbsp;</file-upload>
+    </div>
+  </div>
+</script>
+<script id="template/modal/window.html" type="text/ng-template"><div tabindex="-1" role="dialog" class="modal fade" ng-class="{in: animate}" ng-style="{'z-index': 1050 + index*10, display: 'block'}" ng-click="close($event)">
+    <div class="modal-dialog" ng-class="{'modal-sm': size == 'sm', 'modal-lg': size == 'lg'}"><div class="modal-content" modal-transclude></div></div>
+</div>
+</script>
+<script id="template/modal/backdrop.html" type="text/ng-template"><div class="modal-backdrop fade {{ backdropClass }}"
+     ng-class="{in: animate}"
+     ng-style="{'z-index': 1040 + (index && 1 || 0) + index*10}"
+></div>
+
+</script>

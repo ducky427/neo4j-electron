@@ -1,0 +1,8 @@
+<span ng-show="frame.hasErrors">Execution error</span>
+<p ng-hide="frame.hasErrors"><span>{{resultStatistics(frame)}}</span>
+  <div ng-show="isActive(&quot;text&quot;)" class="frame-slider-wrapper"><span>Max column width: </span>
+    <div class="frame-slider">
+      <range-slider ng-range-min="slider.min" ng-range-max="slider.max" ng-model="ascii_col_width" class="text-table-slider"></range-slider>
+    </div>
+  </div>
+</p>

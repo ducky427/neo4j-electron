@@ -1,0 +1,122 @@
+<div class="inner">
+  <h4>Browser Settings</h4>
+  <form ng-controller="SettingsCtrl">
+    <div ng-show="showMessengerButton()">
+      <h5>Messaging</h5>
+      <div class="checkbox">
+        <label for="shouldReportUdc">
+          <input id="shouldReportUdc" type="checkbox" ng-model="settings.shouldReportUdc" ng-change="save()"><span>&nbsp; Share non-sensitive data?</span>
+        </label>
+      </div>
+      <button ng-click="showMessenger()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-envelope">&nbsp;Messenger</span></button>
+    </div>
+    <h5>User Interface</h5>
+    <div class="form-group">
+      <label>Theme</label>
+      <div class="radio">
+        <label>
+          <input type="radio" name="themeRadio" id="theme1" value="normal" ng-model="settings.theme" ng-change="save()" checked="checked"><span tooltip="Colorful default theme." tooltip-placement="right">Normal</span>
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="themeRadio" id="theme2" value="dark" ng-model="settings.theme" ng-change="save()"><span tooltip="Low contrast, great in dark surroundings." tooltip-placement="right">Dark</span>
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="themeRadio" id="theme3" value="outline" ng-model="settings.theme" ng-change="save()"><span tooltip="Higher contrast, great when presenting." tooltip-placement="right">Outline</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="initCmd" tooltip="This command gets executed when connected." tooltip-placement="top">Initial Command
+        <input id="initCmd" type="string" ng-model="settings.initCmd" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <h5>Preferences</h5>
+    <div class="checkbox">
+      <label for="shouldReportUdc">
+        <input id="shouldReportUdcPref" type="checkbox" ng-model="settings.shouldReportUdc" ng-change="save()"><span>&nbsp; Help improve Neo4j?&nbsp;</span><a href="http://neo4j.com/legal/neo4j-user-experience/" class="sl sl-question-mark"></a>
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="experimentalFeatures">
+        <input id="experimentalFeatures" type="checkbox" ng-model="settings.experimentalFeatures" ng-change="save()"><span tooltip="Upcoming features that are in beta." tooltip-placement="top">&nbsp; Enable experimental features?</span>
+      </label>
+    </div>
+    <div ng-show="neo4j.enterpriseEdition" class="checkbox">
+      <label for="retainConnectionCredentials">
+        <input id="retainConnectionCredentials" type="checkbox" ng-model="settings.retainConnectionCredentials" ng-change="save()"><span tooltip="Remember connection credentials in browser." tooltip-placement="right">&nbsp; Retain login credentials</span>
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="showSampleScripts">
+        <input id="showSampleScripts" type="checkbox" ng-model="settings.showSampleScripts" ng-change="save()"><span tooltip="Show sample scripts in favorites drawer." tooltip-placement="top">&nbsp; Show sample scripts</span>
+      </label>
+    </div>
+    <h5>Network Connection</h5>
+    <div class="checkbox">
+      <label for="useBolt">
+        <input id="useBolt" type="checkbox" ng-model="settings.useBolt" ng-change="save(); toggleBoltUsage()"><span tooltip="Use the Bolt protocol for transport when available." tooltip-placement="top">&nbsp; Use Bolt protocol when available&nbsp;<a ng-click="openBoltHelp()" class="sl sl-question-mark"></a></span>
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="boltHost" tooltip="Set host:port for server Bolt interface." tooltip-placement="top">Bolt host
+        <input id="initCmd" placeholder="{{defaultBoltHost}}:7687" type="string" ng-model="settings.boltHost" ng-change="save(); updateBoltConnection()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="maxExecutionTime" tooltip="Query timeout in seconds." tooltip-placement="top">Max Execution Time
+        <input id="maxExecutionTime" type="number" min="1" ng-model="settings.maxExecutionTime" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="heartbeat" tooltip="Check connection and update meta data with this interval (in seconds)" tooltip-placement="top">Heartbeat interval
+        <input id="heartbeatInterval" type="number" min="1" ng-model="settings.heartbeat" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <h5>Result Frames</h5>
+    <div class="form-group">
+      <label for="maxFrames" tooltip="Max number of frames in stream. When reached, old frames gets retired." tooltip-placement="top">Max Frames
+        <input id="maxFrames" type="number" min="1" ng-model="settings.maxFrames" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="maxHistory" tooltip="Max number of history entries. When reached, old entries gets retired." tooltip-placement="top">Max History
+        <input id="maxHistory" type="number" min="1" ng-model="settings.maxHistory" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="checkbox">
+      <label for="scrollToTop">
+        <input id="scrollToTop" type="checkbox" ng-model="settings.scrollToTop" ng-change="save()"><span tooltip="Automatically scroll stream to top on new frames." tooltip-placement="right">&nbsp; Scroll To Top</span>
+      </label>
+    </div>
+    <h5>Graph Visualization</h5>
+    <div class="form-group">
+      <label for="initialNodeDisplay" tooltip="Limit number of nodes displayed on first load of the graph visualization." tooltip-placement="top">Initial Node Display
+        <input id="initialNodeDisplay" type="number" min="1" ng-model="settings.initialNodeDisplay" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="maxNeighbours" tooltip="Limit exploratary queries to this limit." tooltip-placement="top">Max Neighbors
+        <input id="maxNeighbours" type="number" min="1" ng-model="settings.maxNeighbours" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="maxRows" tooltip="Max number of rows to render in 'Rows' result view." tooltip-placement="top">Max Rows
+        <input id="maxRows" type="number" min="1" ng-model="settings.maxRows" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="maxRawSize" tooltip="Limit rendering of raw output to this number of characters." tooltip-placement="top">Max Raw Size
+        <input id="maxRawSize" type="number" min="1" ng-model="settings.maxRawSize" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="refreshInterval" tooltip="Refresh auto-refreshing frames on this interval (in seconds)" tooltip-placement="top">Refresh Interval
+        <input id="refreshInterval" type="number" min="1" ng-model="settings.refreshInterval" ng-change="save()" class="form-control input">
+      </label>
+    </div>
+  </form>
+</div>

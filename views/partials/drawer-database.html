@@ -1,0 +1,26 @@
+<div class="inner">
+  <h4>Database Information</h4>
+  <h5>Node labels</h5><a ng-show="labels.length" ng-click="editor.execScript('MATCH (n) RETURN n LIMIT 25')" class="token token-label">*</a><span ng-show="!labels.length">No labels in database</span><span ng-repeat="label in labels | orderBy: identity"><a ng-click="editor.execScript(substituteToken('MATCH (n:&lt;token&gt;) RETURN n LIMIT 25', label))" class="token token-label">{{label}}</a></span>
+  <h5>Relationship types</h5><a ng-show="relationships.length" ng-click="editor.execScript('MATCH ()-[r]-&gt;() RETURN r LIMIT 25')" class="token token-relationship-type">*</a><span ng-show="!relationships.length">No relationships in database</span><span ng-repeat="relationshipType in relationships | orderBy: identity"><a ng-click="editor.execScript(substituteToken('MATCH p=()-[r:&lt;token&gt;]-&gt;() RETURN p LIMIT 25', relationshipType))" class="token token-relationship-type">{{relationshipType}}</a></span>
+  <div ng-show="propertyKeys">
+    <h5>Property keys</h5><span ng-show="!propertyKeys.length">No property keys in database</span><span ng-repeat="propertyKey in propertyKeys | orderBy: identity"><a ng-click="editor.execScript(substituteToken('MATCH (n) WHERE EXISTS(n.&lt;token&gt;) RETURN DISTINCT &quot;node&quot; as element, n.&lt;token&gt; AS &lt;token&gt; LIMIT 25 UNION ALL MATCH ()-[r]-() WHERE EXISTS(r.&lt;token&gt;) RETURN DISTINCT &quot;relationship&quot; AS element, r.&lt;token&gt; AS &lt;token&gt; LIMIT 25', propertyKey))" class="token token-property-key">{{propertyKey}}</a></span>
+  </div>
+  <h5>Database</h5>
+  <ul>
+    <li class="pair">
+      <div class="key">Version:</div>
+      <div class="value">{{ neo4j.version }}</div>
+    </li>
+    <li class="pair">
+      <div class="key">Name:</div>
+      <div class="value">{{kernel.DatabaseName || '-'}}</div>
+    </li>
+    <li class="pair">
+      <div class="key">Size:</div>
+      <div class="value">{{kernel.TotalStoreSize | humanReadableBytes}}</div>
+    </li>
+    <li class="pair">
+      <div class="key">Information</div><a play-topic="sysinfo" class="value">sysinfo</a>
+    </li>
+  </ul>
+</div>

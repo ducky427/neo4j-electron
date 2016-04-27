@@ -1,0 +1,328 @@
+<div ng-controller="CypherResultCtrl" fullscreen="fullscreen">
+  <div class="outer">
+    <div class="code-bar">
+      <ul class="actions list-inline">
+        <li dropdown="" ng-show="frame.type == &quot;http&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportJSON(frame.response)">Download JSON</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;shell&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportText(frame.response)">Download TXT</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;cypher&quot;" class="dropdown"><a dropdown-toggle="" tooltip-placement="bottom" tooltip="Export to file" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportGraphSVG()" ng-show="isActive(&quot;graph&quot;)">Export SVG</a><a exportable ng-click="exportPlanSVG()" ng-show="isActive(&quot;plan&quot;)">Export SVG</a><a exportable ng-click="exportGraphPNG()" ng-show="isActive(&quot;graph&quot;)">Export PNG</a><a exportable ng-click="exportPlanPNG()" ng-show="isActive(&quot;plan&quot;)">Export PNG</a><a exportable ng-click="exportJSON(frame.response.raw.summary ? frame.response.raw : frame.response.table._response)">Export JSON</a><a ng-hide="frame.response.protocol=='bolt'" exportable ng-click="exportCSV(frame.response.table)">Export CSV</a></li>
+          </ul>
+        </li>
+        <li><a ng-click="pin(frame)" ng-class="{pinned: pinned}" tooltip-placement="bottom" tooltip="Pin at top" class="button sl sl-pin"></a></li>
+        <li><a ng-click="toggleFullscreen(true)" tooltip-placement="bottom" tooltip="Fullscreen" ng-show="frame.fullscreenable" class="button sl sl-scale-spread"></a></li>
+        <li><a ng-click="frames.close(frame)" tooltip-placement="bottom" tooltip="Cancel and close" class="button sl sl-delete"></a></li>
+      </ul>
+      <div class="status"><span ng-if="frame.type == &quot;cypher&quot;" class="prompt code">$</span><span click-to-code="frame.input" class="code mono">{{frame.input | uncomment}}</span></div><a ng-click="toggleFullscreen(false)" tooltip="Close Fullscreen" tooltip-placement="bottom" class="close-fullscreen sl sl-scale-reduce"></a>
+    </div>
+    <div class="left-frame-toggle">
+      <div ng-if="frame.type == &quot;cypher&quot; &amp;&amp; availableModes.length &gt; 0" class="left-toggle-menu toggle">
+        <div class="btn-group toggle-buttons">
+          <div ng-show="isAvailable('graph')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;graph&quot;)}" ng-click="setActive(&quot;graph&quot;)" class="btn"><i class="nf nf-logo"></i><span class="mini-menu-item-text">Graph</span></button><br>
+          </div>
+          <div ng-show="isAvailable('table')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;table&quot;)}" ng-click="setActive(&quot;table&quot;)" class="btn"><i class="fa fa-table"></i><span class="mini-menu-item-text">Rows</span></button><br>
+          </div>
+          <div ng-show="isAvailable('text')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;text&quot;)}" ng-click="setActive(&quot;text&quot;)" class="btn"><i class="fa fa-font"></i><span class="mini-menu-item-text">Text</span></button><br>
+          </div>
+          <div ng-show="isAvailable('plan')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;plan&quot;)}" ng-click="setActive(&quot;plan&quot;)" class="btn"><i class="fa fa-code-fork"></i><span class="mini-menu-item-text">Plan</span></button><br>
+          </div>
+          <div ng-show="isAvailable('errors')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;errors&quot;)}" ng-click="setActive(&quot;errors&quot;)" class="btn"><i class="fa fa-file-text-o"></i><span class="mini-menu-item-text">Errors</span></button><br>
+          </div>
+          <div ng-show="isAvailable('messages')" class="button-holder">
+            <button ng-class="{active: isActive(&quot;messages&quot;)}" ng-click="setActive(&quot;messages&quot;)" class="btn"><i class="fa fa-exclamation-triangle"></i><span class="mini-menu-item-text">Warn</span></button><br>
+          </div>
+          <div class="button-holder">
+            <button ng-class="{active: isActive(&quot;raw&quot;)}" ng-click="setActive(&quot;raw&quot;)" class="btn"><i class="fa fa-code"></i><span class="mini-menu-item-text">Code</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-class="{&quot;no-left-menu&quot;: frame.type != &quot;cypher&quot; || availableModes.length &lt; 1}" class="right-inner-frame no-indicator">
+      <div class="inner">
+        <div ng-class="{error: frame.hasErrors}" class="view-result">
+          <div ng-show="isActive(&quot;graph&quot; )&amp;&amp; !frame.isTerminating" ng-controller="InspectorCtrl" class="view-result-graph">
+            <article ng-show="!isAvailable(&quot;graph&quot;)" class="help no-data">
+              <p>No graph view available. You have to&nbsp;<a help-topic="RETURN">RETURN</a>&nbsp; nodes, relationships or paths to see a graph visualization.</p>
+            </article>
+            <div ng-show="isAvailable(&quot;graph&quot;)" ng-class="{'one-legend-row': hasLabels || hasTypes, 'two-legend-rows': hasLabels &amp;&amp; hasTypes}" class="graph-holder result">
+              <div ng-controller="LegendCtrl" ng-model="frame.results.graph" class="legend">
+                <div ng-if="labels[&quot;&quot;].count" ng-class="{contracted: labelsContracted}" class="legend-row">
+                  <div overflow-with-toggle="" ng-click="labelsContracted = !labelsContracted" class="row-toggle">
+                    <div ng-class="labelsContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+                  </div>
+                  <ul class="list-unstyled list-labels">
+                    <li ng-repeat="(label, node) in labels" ng-class="{active: currentItem == node}">
+                      <div ng-click="onItemClick(node, 'label')" class="contents">
+                        <div ng-style="{&quot;background-color&quot;: node.style.props.color, &quot;color&quot;: node.style.props[&quot;text-color-internal&quot;]}" class="token token-label">{{label || '*'}}<span class="count">({{node.count}})</span></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div ng-if="types[&quot;&quot;].count" ng-class="{contracted: typesContracted}" class="legend-row">
+                  <div overflow-with-toggle="" ng-click="typesContracted = !typesContracted" class="row-toggle">
+                    <div ng-class="typesContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+                  </div>
+                  <ul class="list-unstyled list-relationships">
+                    <li ng-repeat="(type, rel) in types" ng-class="{active: currentItem == node}">
+                      <div ng-click="onItemClick(rel, 'relationshipType')" class="contents">
+                        <div ng-style="{&quot;background-color&quot;: rel.style.props.color, &quot;color&quot;: rel.style.props[&quot;text-color-internal&quot;]}" class="token token-relationship-type">{{type || '*'}}<span class="count">({{rel.count}})</span></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div ng-controller="FrameNotificationCtrl" class="frame-notifications">
+                <div ng-repeat="notification in notifications | orderBy:'$$id':true" class="repeater">
+                  <div ng-class="{closing: notification.$$is_closing}" class="animation-layer">
+                    <div class="table-wrapper">
+                      <div ng-click="notification.fn()" class="frame-notification notif-{{notification.type}}">
+                        <p>{{notification.message}}</p>
+                        <div class="close-notification"><a ng-click="close(notification); $event.stopPropagation();" class="fa fa-times-circle"></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="graph-contents">
+                <svg neo-graph="neo-graph" graph-data="frame.response.graph" on-item-click="onItemClick($item, &quot;graphItem&quot;)" on-item-mouse-over="onItemHover($item, &quot;graphItem&quot;)" on-item-mouse-out="onItemHover()" on-node-drag-toggle="onNodeDragToggle($item)" on-canvas-clicked="onItemClick()" ng-controller="D3GraphCtrl" style="pointer-events:fill" class="graph"></svg>
+                <div ng-show="isFullScreen()" class="zoom-holder">
+                  <button class="zoom_in faded"><i class="sl sl-zoom-in"></i></button>
+                  <button class="zoom_out"><i class="sl sl-zoom-out"></i></button>
+                </div>
+              </div>
+            </div>
+            <div ng-show="true" class="status-bar">
+              <div class="status">
+                <div ng-if="Inspector.length &gt; 0" ng-class="{contracted: inspectorContracted}" class="inspector-footer">
+                  <div class="inspector-foot-row">
+                    <div update-ui="inspectorChanged" overflow-with-toggle="" ng-click="inspectorContracted = !inspectorContracted" class="row-toggle">
+                      <div ng-class="inspectorContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+                    </div>
+                    <ul class="list-unstyled list-items">
+                      <li ng-repeat="row in Inspector.items" ng-include="row.tmpl" onload="item = row.data" class="inspector-footer-row"></li>
+                    </ul>
+                  </div>
+                </div>
+                <div ng-if="Inspector.length == 0" class="inspector-footer">
+                  <div class="inspector-footer-row"><span>{{ graphStatistics(frame) }}</span>
+                    <div class="actions">
+                      <div ng-click="toggleDisplayInternalRelationships()" class="toggle"><a class="toggle-text">Auto-complete</a>
+                        <div class="switch">
+                          <label>
+                            <div ng-class="{right: displayInternalRelationships}" class="switch-inner"><span class="right-text">ON</span>
+                              <div class="handle"></div><span class="left-text">OFF</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;table&quot;) &amp;&amp; !frame.isTerminating" class="view-result-table result">
+            <div class="table-holder">
+              <article ng-show="!frame.response.table._response.columns.length" class="help no-data has-status-bar">
+                <p ng-show="getNonZeroStatisticsFields(frame).length">{{formatStatisticsOutput(updatesStatistics(frame))}}</p>
+                <p ng-show="!getNonZeroStatisticsFields(frame).length">(no changes, no rows)</p>
+              </article>
+              <article ng-show="!frame.response.table._response.data.length &amp;&amp; frame.response.table._response.columns.length" class="help no-data has-status-bar">
+                <p>(no rows)</p>
+              </article>
+              <neo-table table-data="frame.response.table" ng-show="frame.response.table._response.data.length"></neo-table>
+            </div>
+            <div class="status-bar">
+              <div class="status"><span ng-show="frame.hasErrors">Execution error</span>
+                <p ng-hide="frame.hasErrors"><span>{{resultStatistics(frame)}}</span>
+                  <div ng-show="isActive(&quot;text&quot;)" class="frame-slider-wrapper"><span>Max column width: </span>
+                    <div class="frame-slider">
+                      <range-slider ng-range-min="slider.min" ng-range-max="slider.max" ng-model="ascii_col_width" class="text-table-slider"></range-slider>
+                    </div>
+                  </div>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;text&quot;)" class="view-result-table result ascii-result-table">
+            <div class="table-holder">
+              <article class="help no-data has-status-bar">
+                <pre ng-bind="ascii" class="ascii-table"></pre>
+              </article>
+            </div>
+            <div class="status-bar">
+              <div class="status"><span ng-show="frame.hasErrors">Execution error</span>
+                <p ng-hide="frame.hasErrors"><span>{{resultStatistics(frame)}}</span>
+                  <div ng-show="isActive(&quot;text&quot;)" class="frame-slider-wrapper"><span>Max column width: </span>
+                    <div class="frame-slider">
+                      <range-slider ng-range-min="slider.min" ng-range-max="slider.max" ng-model="ascii_col_width" class="text-table-slider"></range-slider>
+                    </div>
+                  </div>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;plan&quot;) &amp;&amp; !frame.isTerminating" class="view-result-plan result">
+            <div class="plan-holder">
+              <article ng-show="!isAvailable(&quot;plan&quot;)" class="help no-data has-status-bar">
+                <p>No plan found. Prepend your query with EXPLAIN or PROFILE to analyze the execution plan.</p>
+              </article>
+              <div ng-show="isAvailable(&quot;plan&quot;)" class="query-plan-contents">
+                <svg neo-plan="neo-plan" query-plan="frame.response.table._response.plan" class="query-plan"></svg>
+              </div>
+            </div>
+            <div class="status-bar">
+              <div class="status">
+                <p>{{planStatistics(frame)}}</p>
+                <div class="actions status-bar-actions"><a ng-click="toggleExpanded(false)" tooltip="Collapse all" tooltip-placement="left" class="button sl sl-double-up"></a><a ng-click="toggleExpanded(true)" tooltip="Expand all" tooltip-placement="left" class="button sl sl-double-down"></a><a help-topic="query plan" tooltip="Help topic" tooltip-placement="left" class="button"></a></div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;raw&quot;) &amp;&amp; !frame.isTerminating" class="view-result-raw result">
+            <div class="raw-holder">
+              <article ng-show="!isAvailable(&quot;raw&quot;)" class="help no-data has-status-bar">
+                <p>No raw data found.</p>
+              </article>
+              <div ng-show="isAvailable(&quot;raw&quot;) &amp;&amp;  frame.response.protocol == &quot;bolt&quot;" class="raw-contents clearfix">
+                <div class="request-card bolt-contents">
+                  <h4>Request through Bolt</h4>
+                  <div class="frame-card">
+                    <p class="lead div-toggler">Statement</p>
+                    <div class="frame-card-contents">
+                      <table class="table data">
+                        <tbody>
+                          <tr>
+                            <td>Parameters</td>
+                            <td>{{JSON.stringify(frame.response.raw.summary.statement.parameters)}}</td>
+                          </tr>
+                          <tr>
+                            <td>Text</td>
+                            <td>{{frame.response.raw.summary.statement.text}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <h4>Response through Bolt</h4>
+                  <div class="frame-card">
+                    <p class="lead div-toggler">Response</p>
+                    <div class="frame-card-contents">
+                      <table class="table data">
+                        <tbody>
+                          <tr>
+                            <td>Data</td>
+                            <td>
+                              <div>
+                                <pre output-raw="frame.response.raw" override-size-limit="true"></pre>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>statementType</td>
+                            <td>{{frame.response.raw.summary.statementType}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div ng-show="isAvailable(&quot;raw&quot;) &amp;&amp;  frame.response.protocol != &quot;bolt&quot;" class="raw-contents clearfix">
+                <div ng-repeat="(index, request) in frame.requests" class="request-card">
+                  <h4>{{ getRequestTitle(frame.requests.length, index) }}</h4>
+                  <div class="frame-card">
+                    <p class="lead div-toggler">General</p>
+                    <div class="frame-card-contents">
+                      <general-request-table table-data="request.raw.request"></general-request-table>
+                    </div>
+                  </div>
+                  <div class="frame-card">
+                    <p class="lead div-toggler">Request</p>
+                    <div class="frame-card-contents">
+                      <headers-table table-data="request.raw.request.headers"></headers-table>
+                      <h5>Payload</h5>
+                      <pre output-raw="request.raw.request.data"></pre>
+                    </div>
+                  </div>
+                  <div class="frame-card">
+                    <p class="lead div-toggler">Response</p>
+                    <div class="frame-card-contents">
+                      <headers-table table-data="request.raw.response.headers"></headers-table>
+                      <h5>Data</h5>
+                      <pre output-raw="request.raw.response.data" override-size-limit="true"></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-show="frame.hasErrors" class="status-bar error">
+              <div class="status">
+                <div class="fa fa-exclamation-triangle icon-warning-sign">&nbsp;</div>{{frame.errorText}}
+              </div>
+            </div>
+            <div ng-show="!frame.hasErrors" class="status-bar">
+              <div class="status"><span ng-show="frame.hasErrors">Execution error</span>
+                <p ng-hide="frame.hasErrors"><span>{{rawStatistics(frame)}}</span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;errors&quot;)" class="view-result-error result with-frame-menu">
+            <div class="error-holder">
+              <article class="help no-data has-status-bar">
+                <pre ng-bind="frame.detailedErrorText" class="frame-error"></pre>
+              </article>
+            </div>
+            <div ng-show="frame.hasErrors" class="status-bar error">
+              <div class="status">
+                <div class="fa fa-exclamation-triangle icon-warning-sign">&nbsp;</div>{{frame.errorText}}
+              </div>
+            </div>
+          </div>
+          <div ng-show="isActive(&quot;messages&quot;)" class="view-result-messages result with-frame-menu">
+            <div class="messages-holder">
+              <article class="help no-data has-status-bar">
+                <div ng-repeat="(index, message) in frame.response.notifications" class="cypher-messages">
+                  <div class="cypher-message cypher-message-{{message.severity | lowercase}}">{{message.severity}}</div>
+                  <h4>{{message.title}}</h4>
+                  <p>{{message.description}}</p>
+                  <pre cypher-hint="message" cypher-input="{{frame.input}}"></pre>
+                  <hr ng-show="!$last">
+                </div>
+              </article>
+            </div>
+            <div class="status-bar error client-warning">
+              <div class="status">
+                <div class="fa fa-exclamation-triangle icon-warning-sign">&nbsp;</div>Neo.ClientNotification
+              </div>
+            </div>
+          </div>
+          <div ng-show="frame.isLoading &amp;&amp; !frame.isTerminating" class="view-result-loading">
+            <div class="spinner"><span class="fa fa-spinner fa-spin fa-2x"></span></div>
+            <div class="status-bar">
+              <div class="status"><span>Running...</span></div>
+            </div>
+          </div>
+          <div ng-show="frame.isTerminating" class="view-result-loading">
+            <div class="spinner"><span class="fa fa-spinner fa-spin fa-2x"></span></div>
+            <div class="status-bar">
+              <div class="status"><span>Terminating...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

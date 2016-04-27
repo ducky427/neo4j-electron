@@ -1,0 +1,34 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>FOREACH</h3>
+        <p class="lead">Operate on a collection</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>FOREACH</code> clause is used to update data within a collection,
+          whether components of a path, or result of aggregation.
+        </p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-foreach.html">FOREACH</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="create">:help CREATE</a>&nbsp;<a help-topic="delete">:help DELETE</a>&nbsp;<a help-topic="set">:help SET</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">MATCH p = (ups)&lt;-[DEPENDS_ON]-(device) WHERE ups.id='EPS-7001'
+FOREACH (n IN nodes(p) | SET n.available = FALSE )</pre>
+          <figcaption>Mark all devices plugged into a failed UPS as unavailable.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

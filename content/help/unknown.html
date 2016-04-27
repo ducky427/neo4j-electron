@@ -1,0 +1,37 @@
+<article class="help alert">
+  <div class="container-fluid">
+    <section class="row-fluid">
+      <div class="title col-sm-3">
+        <h3><span>{{frame.input | commandError}}</span></h3>
+        <p class="lead">{{ motd.unrecognized }}</p>
+      </div>
+      <div class="details col-sm-9">
+        <table class="table-condensed table-help">
+          <tr>
+            <th class="lead">You said:</th>
+            <td><code class="lead">{{frame.input | uncomment}}</code></td>
+          </tr>
+          <tr>
+            <th>Try:</th>
+            <td>
+              <ul>
+                <li><a help-topic="help">:help</a>&nbsp;- for general help about using this Browser</li>
+                <li><a help-topic="cypher">:help commands</a>&nbsp;- to see available commands</li>
+                <li><a href="http://neo4j.com/docs/">Neo4j Manual</a>&nbsp;- for detailed information about Neo4j</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Keys:</th>
+            <td>
+              <ul>
+                <li><code>&lt; ctrl - &uarr; &gt;</code>&nbsp; to retrieve previous entry from history.</li>
+                <li><code>&lt; ctrl - &uarr; &gt;</code>&nbsp; to retrieve previous entry from history.</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

@@ -1,0 +1,37 @@
+<div class="left-fixed stretch">
+  <div class="sidebar-nav">
+    <ul ng-repeat="(section, items) in sections" class="nav nav-list">
+      <li class="nav-header">{{section}}</li>
+      <li ng-repeat="(name, item) in items" ng-class="{active: currentItem.name == name}"><a ng-click="selectItem(section, name)">{{name}}</a></li>
+    </ul>
+  </div>
+</div>
+<div class="right-fixed stretch">
+  <div class="container-fluid">
+    <h2>{{currentItem.name}}</h2>
+    <p>{{currentItem.description}}</p>
+    <ul>
+      <li>{{attr}}</li>
+    </ul>
+    <table class="table-condensed">
+      <tbody>
+        <tr ng-repeat="attr in currentItem.attributes | filter:simpleValues">
+          <th style="text-align: right">{{attr.name}}:</th>
+          <td>{{attr.value.toString()}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div ng-repeat="attr in currentItem.attributes | filter:objectValues">
+      <h3>{{attr.name}}</h3>
+      <p ng-show="attr.name != attr.description">{{attr.description}}</p>
+      <table class="table-condensed">
+        <tbody>
+          <tr ng-repeat="(k, v) in attr.value">
+            <th style="text-align: right">{{k}}:</th>
+            <td>{{stringify(v)}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

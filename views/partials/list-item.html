@@ -1,0 +1,3 @@
+<div ng-click="editor.loadDocument(document.id)" ng-class="{loaded: editor.document.id == document.id}" class="list-item"><a ng-click="playDocument(document.content);$event.stopPropagation()" ng-class="{&quot;icon-loaded fa-play-circle&quot;: editor.document.id == document.id, &quot;fa-circle-thin&quot;: editor.document.id != document.id}" class="fa icon"></a><a ng-click="playDocument(document.content);$event.stopPropagation()" class="fa fa-play-circle icon-inactive"></a><a ng-click="removeDocument(document);$event.stopPropagation()" class="fa fa-trash-o"></a>
+  <div class="contents"><a>{{document.content | autotitle}}</a></div>
+</div>

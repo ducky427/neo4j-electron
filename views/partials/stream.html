@@ -1,0 +1,10 @@
+<div>
+  <div ng-show="neo4j.version &amp;&amp; frames.items.length == 0" class="intro">
+    <footer>{{motd.quote.text}}<br>&mdash; {{motd.quote.author}}</footer>
+  </div>
+  <div id="stream">
+    <div ng-repeat="frame in frames.items | orderBy:[&quot;-pinTime&quot;, &quot;-startTime&quot;]" class="frame frame-in">
+      <div ng-include="frame.templateUrl" ng-controller="FrameCtrl" scroll-to-top="stream"></div>
+    </div>
+  </div>
+</div>

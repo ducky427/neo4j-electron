@@ -1,0 +1,26 @@
+<div ng-controller="LegendCtrl" ng-model="frame.results.graph" class="legend">
+  <div ng-if="labels[&quot;&quot;].count" ng-class="{contracted: labelsContracted}" class="legend-row">
+    <div overflow-with-toggle="" ng-click="labelsContracted = !labelsContracted" class="row-toggle">
+      <div ng-class="labelsContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+    </div>
+    <ul class="list-unstyled list-labels">
+      <li ng-repeat="(label, node) in labels" ng-class="{active: currentItem == node}">
+        <div ng-click="onItemClick(node, 'label')" class="contents">
+          <div ng-style="{&quot;background-color&quot;: node.style.props.color, &quot;color&quot;: node.style.props[&quot;text-color-internal&quot;]}" class="token token-label">{{label || '*'}}<span class="count">({{node.count}})</span></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div ng-if="types[&quot;&quot;].count" ng-class="{contracted: typesContracted}" class="legend-row">
+    <div overflow-with-toggle="" ng-click="typesContracted = !typesContracted" class="row-toggle">
+      <div ng-class="typesContracted ? 'fa-caret-left' : 'fa-caret-down'" class="fa overflow-indicator"></div>
+    </div>
+    <ul class="list-unstyled list-relationships">
+      <li ng-repeat="(type, rel) in types" ng-class="{active: currentItem == node}">
+        <div ng-click="onItemClick(rel, 'relationshipType')" class="contents">
+          <div ng-style="{&quot;background-color&quot;: rel.style.props.color, &quot;color&quot;: rel.style.props[&quot;text-color-internal&quot;]}" class="token token-relationship-type">{{type || '*'}}<span class="count">({{rel.count}})</span></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

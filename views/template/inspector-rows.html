@@ -1,0 +1,82 @@
+<script id="inspector/contextMenu.html" type="text/ng-template">
+  <ul class="list-inline">
+    <li ng-if="item.menuSelection">
+      <div ng-bind="item.label" class="token token-label token-conext-menu-key"></div>
+    </li>
+    <li class="pair">
+      <div ng-bind="item.menuContent" class="value"></div>
+    </li>
+  </ul>
+</script>
+<script id="inspector/graphItem.html" type="text/ng-template">
+  <ul class="list-inline">
+    <li ng-if="item.isNode" ng-repeat="label in item.labels">
+      <div ng-style="styleForLabel(label)" ng-bind="label" class="token token-label"></div>
+    </li>
+    <li ng-if="!item.isNode">
+      <div ng-style="styleForItem(item)" ng-bind="item.type" class="token token-relationship-type"></div>
+    </li>
+    <li ng-if="item.propertyList.length == 0" class="empty">No properties</li>
+    <li class="pair">
+      <div ng-bind-template="&lt;id&gt;: " class="key"></div>
+      <div ng-bind="item.id" class="value"></div>
+    </li>
+    <li ng-repeat="property in item.propertyList" class="pair">
+      <div ng-bind-template="{{property.key}}: " class="key"></div>
+      <div ng-bind="property.value" class="value"></div>
+    </li>
+  </ul>
+</script>
+<script id="inspector/label.html" type="text/ng-template">
+  <ul class="list-inline">
+    <li class="inspector-icon">
+      <div ng-style="{&quot;background-color&quot;: item.style.props.color, &quot;color&quot;: item.style.props[&quot;text-color-internal&quot;]}" class="token token-label">{{item.label || '*'}}</div>
+    </li>
+    <li class="colors">
+      <ul class="list-inline">
+        <li>Color:</li>
+        <li ng-repeat="scheme in colors"><a ng-style="{&quot;background-color&quot;: scheme.color}" ng-class="{active: scheme.color == item.style.props.color &amp;&amp; scheme[&quot;border-color&quot;] == item.style.props[&quot;border-color&quot;]}" ng-click="selectScheme(item, scheme)"></a></li>
+      </ul>
+    </li>
+    <li class="node-sizes">
+      <ul class="list-inline">
+        <li>Size:</li>
+        <li ng-repeat="size in sizes"><a ng-class="{active: sizeLessThan(size.diameter, item.style.props.diameter)}" ng-style="nodeDisplaySize($index)" ng-click="selectSize(item, size)"></a></li>
+      </ul>
+    </li>
+    <li class="attributes">
+      <ul class="list-inline">
+        <li>Caption:</li>
+        <li><a ng-click="selectCaption(item, &quot;&lt;id&gt;&quot;)" ng-class="{selected: isSelectedCaption(item, '&lt;id&gt;')}" class="attribute">&lt;id&gt;</a></li>
+        <li ng-repeat="property in item.attrs"><a ng-click="selectCaption(item, &quot;{&quot; + property + &quot;}&quot;)" ng-bind="property" ng-class="{selected: isSelectedCaption(item, '{' + property + '}')}" class="attribute"></a></li>
+      </ul>
+    </li>
+  </ul>
+</script>
+<script id="inspector/relationshipType.html" type="text/ng-template">
+  <ul class="list-inline">
+    <li class="inspector-icon">
+      <div ng-style="{&quot;background-color&quot;: item.style.props.color, &quot;color&quot;: item.style.props[&quot;text-color-internal&quot;]}" class="token token-relationship-type">{{item.type  || '*'}}</div>
+    </li>
+    <li class="colors">
+      <ul class="list-inline">
+        <li>Color:</li>
+        <li ng-repeat="scheme in colors"><a ng-style="{&quot;background-color&quot;: scheme.color}" ng-class="{active: scheme.color == item.style.props.color &amp;&amp; scheme[&quot;border-color&quot;] == item.style.props[&quot;border-color&quot;]}" ng-click="selectScheme(item, scheme)"></a></li>
+      </ul>
+    </li>
+    <li class="arrow-widths">
+      <ul class="list-inline">
+        <li>Size:</li>
+        <li ng-repeat="arrowWidth in arrowWidths"><a ng-style="arrowDisplayWidth($index)" ng-class="{active: arrowWidth[&quot;shaft-width&quot;] == item.style.props[&quot;shaft-width&quot;]}" ng-click="selectArrowWidth(item, arrowWidth)"></a></li>
+      </ul>
+    </li>
+    <li class="attributes">
+      <ul class="list-inline">
+        <li>Caption:</li>
+        <li><a ng-click="selectCaption(item, &quot;&lt;id&gt;&quot;)" ng-class="{selected: isSelectedCaption(item, '&lt;id&gt;')}" class="attribute">&lt;id&gt;</a></li>
+        <li><a ng-click="selectCaption(item, &quot;&lt;type&gt;&quot;)" ng-class="{selected: isSelectedCaption(item, '&lt;type&gt;')}" class="attribute">&lt;type&gt;</a></li>
+        <li ng-repeat="property in item.attrs"><a ng-click="selectCaption(item, &quot;{&quot; + property + &quot;}&quot;)" ng-bind="property" ng-class="{selected: isSelectedCaption(item, '{' + property + '}')}" class="attribute"></a></li>
+      </ul>
+    </li>
+  </ul>
+</script>

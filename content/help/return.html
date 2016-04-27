@@ -1,0 +1,32 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>RETURN</h3>
+        <p class="lead">data from a query</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>RETURN</code> clause defines what to include in a query result set, specified as a comma separated list of expressions.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-return.html">RETURN</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="where">:help WHERE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable standalone-example">MATCH (director:Person)-[:DIRECTED]-&gt;(movie)
+RETURN director.name AS Director, collect(movie.title) AS Movies</pre>
+          <figcaption>Return all directors, each paired with a collection of the movies they've directed.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

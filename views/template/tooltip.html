@@ -1,0 +1,15 @@
+<script id="template/popover/popover.html" type="text/ng-template">
+  <div ng-class="{ in: isOpen(), fade: animation()}" class="popover {{placement}}">
+    <div class="arrow"></div>
+    <div class="popover-inner">
+      <h3 ng-bind="title" ng-show="title" class="popover-title"></h3>
+      <div ng-bind-html-unsafe="content" class="popover-content"></div>
+    </div>
+  </div>
+</script>
+<script id="template/tooltip/tooltip-popup.html" type="text/ng-template"><div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-inner" ng-bind="content"></div>
+</div>
+
+</script>

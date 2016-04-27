@@ -1,0 +1,39 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>LOAD CSV</h3>
+        <p class="lead">Load data from a CSV file</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>LOAD CSV</code> clause instructs Neo4j to load data from a CSV file
+          located at the given URL. This is typically used
+          with&nbsp;<code>CREATE</code> and&nbsp;<code>MERGE</code> to import tabular data into the graph. If you are
+           importing a substantially sized data set, you should
+           consider using&nbsp;<code>LOAD CSV</code> in combination with&nbsp;<code>USING PERIODIC COMMIT</code> .
+        </p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/cypher-import.html">LOAD CSV</a></code> manual page;&nbsp;<code><a href="http://neo4j.com/docs/{{neo4j.version}}/cypher-periodic-commit.html">USING PERIODIC COMMIT</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="CREATE">:help CREATE</a>&nbsp;<a help-topic="MERGE">:help MERGE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">LOAD CSV FROM &quot;http://data.neo4j.com/examples/person.csv&quot; AS line
+MERGE (n:Person {id: toInt(line[0])})
+SET n.name = line[1]
+RETURN n</pre>
+          <figcaption>Import Person nodes from a CSV file into the graph</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

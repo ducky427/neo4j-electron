@@ -1,0 +1,10 @@
+<ul>
+  <li ng-repeat="notification in notifications" ng-class="notification.style">
+    <div class="row notification">
+      <div style="text-align:right" class="col-sm-9"><span ng-bind-html="notification.message"></span></div>
+      <div class="col-sm-3 btn-group-vertical">
+        <button ng-repeat="option in notification.options" ng-click="rememberThenDismiss(notification, option.value)" ng-class="option.btn" class="btn btn-default btn-sm"><span ng-class="option.icon" class="fa"> </span>&nbsp;{{ option.label }}</button>
+      </div>
+    </div>
+  </li>
+</ul>

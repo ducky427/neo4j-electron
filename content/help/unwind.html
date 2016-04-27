@@ -1,0 +1,33 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>UNWIND</h3>
+        <p class="lead">unwind a collection into a sequence of rows</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>UNWIND</code> expands a collection in to a sequence of rows. Any existing identifiers are still available after&nbsp;<code>UNWIND</code>.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-unwind.html">UNWIND</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable standalone-example">MATCH p = shortestPath( (lucy:Person {name:&quot;Lucy Liu&quot;})-[:ACTED_IN*]-(bacon:Person {name:&quot;Kevin Bacon&quot;}) )
+UNWIND nodes(p) as n
+RETURN n.name</pre>
+          <figcaption>Return a set of actors that form the shortest acquaintance links between Lucy Liu and Kevin Bacon</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

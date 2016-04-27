@@ -1,0 +1,50 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>Schema</h3>
+        <p class="lead">Database schema indexes</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>Shows information about database schema indexes.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Usage:</th>
+            <td><code>:schema &lt;action&gt; &lt;options...&gt;</code></td>
+          </tr>
+          <tr>
+            <th>Actions:</th>
+            <td>
+              <ul class="list-unstyled">
+                <li>ls - list indexes</li>
+                <li>await - wait for an index to come online</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Options:</th>
+            <td>
+              <ul class="list-unstyled">
+                <li>-l   Specifies which label selected operation is about.</li>
+                <li>-p   Specifies which property selected operation is about.</li>
+                <li>-v   Verbose output of failure descriptions etc.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <th>Examples:</th>
+            <td><code class="code">:schema ls -l :Person</code><br><code class="code">:schema await -l Person -p name</code></td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="create-index-on">:help CREATE INDEX ON</a></td>
+          </tr>
+          <tr>
+            <th>Reference:</th>
+            <td><a href="http://neo4j.com/docs/{{neo4j.version}}/query-schema-index.html">Neo4j Schema Indexes</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </div>
+</article>

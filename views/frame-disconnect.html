@@ -1,0 +1,61 @@
+<div ng-controller="DisconnectCtrl">
+  <div class="outer">
+    <div class="code-bar">
+      <ul class="actions list-inline">
+        <li dropdown="" ng-show="frame.type == &quot;http&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportJSON(frame.response)">Download JSON</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;shell&quot;" class="dropdown"><a dropdown-toggle="" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportText(frame.response)">Download TXT</a></li>
+          </ul>
+        </li>
+        <li dropdown="" ng-show="frame.type == &quot;cypher&quot;" class="dropdown"><a dropdown-toggle="" tooltip-placement="bottom" tooltip="Export to file" class="button sl sl-download-drive dropdown-toggle"></a>
+          <ul class="dropdown-menu">
+            <li><a exportable ng-click="exportGraphSVG()" ng-show="isActive(&quot;graph&quot;)">Export SVG</a><a exportable ng-click="exportPlanSVG()" ng-show="isActive(&quot;plan&quot;)">Export SVG</a><a exportable ng-click="exportGraphPNG()" ng-show="isActive(&quot;graph&quot;)">Export PNG</a><a exportable ng-click="exportPlanPNG()" ng-show="isActive(&quot;plan&quot;)">Export PNG</a><a exportable ng-click="exportJSON(frame.response.raw.summary ? frame.response.raw : frame.response.table._response)">Export JSON</a><a ng-hide="frame.response.protocol=='bolt'" exportable ng-click="exportCSV(frame.response.table)">Export CSV</a></li>
+          </ul>
+        </li>
+        <li><a ng-click="pin(frame)" ng-class="{pinned: pinned}" tooltip-placement="bottom" tooltip="Pin at top" class="button sl sl-pin"></a></li>
+        <li><a ng-click="toggleFullscreen(true)" tooltip-placement="bottom" tooltip="Fullscreen" ng-show="frame.fullscreenable" class="button sl sl-scale-spread"></a></li>
+        <li><a ng-click="frames.close(frame)" tooltip-placement="bottom" tooltip="Cancel and close" class="button sl sl-delete"></a></li>
+      </ul>
+      <div class="status"><span ng-if="frame.type == &quot;cypher&quot;" class="prompt code">$</span><span click-to-code="frame.input" class="code mono">{{frame.input | uncomment}}</span></div><a ng-click="toggleFullscreen(false)" tooltip="Close Fullscreen" tooltip-placement="bottom" class="close-fullscreen sl sl-scale-reduce"></a>
+    </div>
+    <div class="inner">
+      <div class="view-result">
+        <article class="help">
+          <div class="container-fluid">
+            <div ng-show="!static_is_authenticated &amp;&amp; !static_user" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Disconnected</h3>
+                <p class="lead">You are  disconnected from the server.</p>
+              </div>
+            </div>
+            <div ng-show="static_is_authenticated &amp;&amp; !static_user" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Disconnect</h3>
+                <p class="lead">No disconnect available.</p>
+              </div>
+              <div class="details col-sm-9">
+                <p>Server auth is disabled, you can't disconnect.</p>
+              </div>
+            </div>
+            <div ng-show="static_is_authenticated &amp;&amp; static_user" class="section row-fluid summary">
+              <div class="summary col-sm-3">
+                <h3>Disconnection</h3>
+                <p class="lead">You are not disconnected from the server. Try again.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div ng-class="{error: error_text, loading: frame.isLoading}" class="status-bar">
+        <div ng-show="error_text" class="status">
+          <div class="fa fa-exclamation-triangle icon-warning-sign">&nbsp;</div>{{error_text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

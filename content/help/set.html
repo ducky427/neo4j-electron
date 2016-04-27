@@ -1,0 +1,33 @@
+<article class="help">
+  <div class="container-fluid">
+    <section class="row-fluid summary">
+      <div class="summary col-sm-3">
+        <h3>SET</h3>
+        <p class="lead">property updates</p>
+      </div>
+      <div class="details col-sm-9">
+        <p>The&nbsp;<code>SET</code> clause updates properties on nodes and relationships.</p>
+        <table class="table-condensed table-help">
+          <tr>
+            <th>Reference:</th>
+            <td><code><a href="http://neo4j.com/docs/{{neo4j.version}}/query-set.html">SET</a></code> manual page</td>
+          </tr>
+          <tr>
+            <th>Related:</th>
+            <td><a help-topic="match">:help MATCH</a>&nbsp;<a help-topic="where">:help WHERE</a>&nbsp;<a help-topic="cypher">:help Cypher</a></td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <section class="row-fluid example">
+      <div class="col-sm-9 col-sm-offset-3">
+        <figure>
+          <pre class="code runnable">MATCH (fan:Person)-[w:WATCHED]-&gt;(movie)
+WHERE fan.name = &quot;Mikey&quot;
+SET w.rating = 5</pre>
+          <figcaption>Mikey likes everything, so give any movie he has watched 5 stars.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</article>

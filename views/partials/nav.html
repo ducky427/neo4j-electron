@@ -1,0 +1,13 @@
+<div id="nav">
+  <ul class="nav list-group">
+    <li ng-class="{active: showingDrawer(&quot;database&quot;) }" tooltip="Database" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;database&quot;)"><a ng-click="toggleDrawer(&quot;database&quot;)" class="database sl sl-database"></a></li>
+    <li ng-class="{active: showingDrawer(&quot;scripts&quot;) }" tooltip="Favorites" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;scripts&quot;)"><a ng-click="toggleDrawer(&quot;scripts&quot;)" class="favorites sl sl-star"></a></li>
+    <li ng-class="{active: showingDrawer(&quot;info&quot;) }" tooltip="Documentation" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;info&quot;)"><a ng-click="toggleDrawer(&quot;info&quot;)" class="guides sl sl-book"></a></li>
+  </ul>
+  <ul class="nav bottom">
+    <li ng-class="{active: showingDrawer(&quot;profile&quot;) }" tooltip="Cloud Services" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;profile&quot;)" class="nav-user"><a ng-click="toggleDrawer(&quot;profile&quot;)" class="cloud">
+        <div ng-style="{&quot;background-image&quot;: &quot;url(&quot;+currentUser.picture+&quot;)&quot;}" ng-if="currentUser.picture &amp;&amp; syncService.hasConnection" class="avatar">&nbsp;</div><i style="" ng-if="syncService.hasConnection" class="sl sl-cloud"></i><i style="" ng-if="!syncService.hasConnection" class="sl sl-cloud-delete error"></i></a></li>
+    <li ng-class="{active: showingDrawer(&quot;preferences&quot;) }" tooltip="Browser Settings" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;preferences&quot;)"><a ng-click="toggleDrawer(&quot;preferences&quot;)" class="preferences sl sl-setting-gear"></a></li>
+    <li ng-class="{active: showingDrawer(&quot;credits&quot;) }" tooltip="About Neo4j" tooltip-placement="right" tooltip-enable="!showingDrawer(&quot;credits&quot;)"><a ng-click="toggleDrawer(&quot;credits&quot;)" class="credits nw nw-neo4j-outline-32px"></a></li>
+  </ul>
+</div>

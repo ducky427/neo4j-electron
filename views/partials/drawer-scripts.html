@@ -1,0 +1,43 @@
+<div class="inner">
+  <h4 ng-class="{subtitled: currentUser}">
+    <div class="sub">Favorites<a ng-click="folderService.create()" class="create-folder">
+        <div class="fa fa-plus"></div>New folder</a><small ng-if="syncService.inSync">Synced&nbsp;<span am-time-ago="syncService.lastSyncedAt"></span></small><small ng-show="syncService.hasConnection">Connected</small><small ng-hide="syncService.hasConnection">Not Connected</small><small ng-if="!syncService.inSync" ng-click="syncService.push()" class="error"><a>Out of sync</a></small></div>
+  </h4>
+  <h5 ng-if="settings.showSampleScripts &amp;&amp; haveSavedScripts()">Saved Scripts</h5>
+  <div ng-if="haveSavedScripts()" ng-repeat="folder in folders" class="droppable">
+    <h5 ng-click="folderService.expand(folder)" ng-if="folder.id != 'root'" ng-class="{folded: !folder.expanded}" class="folder"><i ng-class="{'fa-rotate-90': folder.expanded}" class="fa fa-caret-right"></i>
+      <div edit-in-place="folder.name" on-blur="folderService.save()"></div><a ng-click="removeFolder(folder)" tooltip-placement="left" tooltip="Remove folder" class="fa fa-trash-o"></a>
+    </h5>
+    <hr ng-if="folder.id == 'root'">
+    <ul ng-show="folder.expanded" ui-sortable="sortableOptions" ng-model="folder.documents" ng-class="{'indented': folder.id != 'root'}" class="starred sortable">
+      <li ng-repeat="document in folder.documents">
+        <div ng-click="editor.loadDocument(document.id)" ng-class="{loaded: editor.document.id == document.id}" class="list-item"><a ng-click="playDocument(document.content);$event.stopPropagation()" ng-class="{&quot;icon-loaded fa-play-circle&quot;: editor.document.id == document.id, &quot;fa-circle-thin&quot;: editor.document.id != document.id}" class="fa icon"></a><a ng-click="playDocument(document.content);$event.stopPropagation()" class="fa fa-play-circle icon-inactive"></a><a ng-click="removeDocument(document);$event.stopPropagation()" class="fa fa-trash-o"></a>
+          <div class="contents"><a>{{document.content | autotitle}}</a></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div ng-show="settings.showSampleScripts">
+    <h5>Sample Scripts</h5>
+    <div ng-repeat="folder in sampleScripts">
+      <h5 ng-click="folder.expanded = !folder.expanded" ng-class="{folded: !folder.expanded}" class="folder"><i ng-class="{'fa-rotate-90': folder.expanded}" class="fa fa-caret-right"></i>
+        <div>{{ folder.name }}</div>
+      </h5>
+      <ul ng-show="folder.expanded" ng-class="{'indented': folder.id != 'root'}">
+        <li ng-repeat="document in folder.documents">
+          <div ng-click="run(document)" class="list-item"><a ng-click="playDocument(document.content);$event.stopPropagation()" class="fa icon fa-circle-thin"></a><a ng-click="playDocument(document.content);$event.stopPropagation()" class="fa fa-play-circle icon-inactive"></a>
+            <div class="contents"><a>{{document.content | autotitle}}</a></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <h5>Styling / Graph Style Sheet</h5>
+  <ul>
+    <li>
+      <button ng-click="editor.execScript(settings.cmdchar + 'style')" class="btn btn-sm btn-popup">Graph Style Sheet</button>
+    </li>
+  </ul>
+  <h5>Import</h5>
+  <file-upload upload="importDocument($content, $name)" extension="cyp|cypher|cql|txt|grass" message="Drop a file to import Cypher or Grass">&nbsp;</file-upload>
+</div>
